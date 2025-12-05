@@ -93,35 +93,37 @@ class MixedRealitySampleActivity : AppSystemActivity() {
 
     systemManager.registerSystem(UiPanelUpdateSystem())
 
-    // Create transparent green material for room bounds visualization
-    val transparentGreenMaterial = SceneMaterial.custom(
-        "solidColor",
+    // Create edge-only transparent green material for room bounds visualization
+    val edgeOnlyMaterial = SceneMaterial.custom(
+        "edgeOnly",
         arrayOf(
-            SceneMaterialAttribute("customColor", SceneMaterialDataType.Vector4)
+            SceneMaterialAttribute("customColor", SceneMaterialDataType.Vector4),
+            SceneMaterialAttribute("edgeParams", SceneMaterialDataType.Vector4)
         )
     ).apply {
         setBlendMode(BlendMode.TRANSLUCENT)
-        setAttribute("customColor", Vector4(0f, 1f, 0f, 0.1f)) // RGBA: green with 10% alpha
+        setAttribute("customColor", Vector4(0f, 1f, 0f, 0.3f)) // RGBA: green with 30% alpha
+        setAttribute("edgeParams", Vector4(0.02f, 0f, 0f, 0f)) // thickness = 2cm in meters
     }
 
-    // Apply transparent green material to all room mesh components
+    // Apply edge-only material to all room mesh components
     procMeshSpawner =
         AnchorProceduralMesh(
             mrukFeature,
             mapOf(
-                MRUKLabel.FLOOR to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.WALL_FACE to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.CEILING to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.TABLE to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.COUCH to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.WINDOW_FRAME to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.DOOR_FRAME to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.STORAGE to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.BED to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.SCREEN to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.LAMP to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.PLANT to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
-                MRUKLabel.OTHER to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.FLOOR to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.WALL_FACE to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.CEILING to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.TABLE to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.COUCH to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.WINDOW_FRAME to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.DOOR_FRAME to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.STORAGE to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.BED to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.SCREEN to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.LAMP to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.PLANT to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
+                MRUKLabel.OTHER to AnchorProceduralMeshConfig(edgeOnlyMaterial, true),
             ),
         )
 
