@@ -10,3 +10,14 @@ plugins {
   alias(libs.plugins.android.application) apply false
   alias(libs.plugins.jetbrains.kotlin.android) apply false
 }
+
+// later in your build.gradle.kts
+spatial {
+   ...
+   shaders {
+        sources.add(
+            // replace with your shader directory
+            project.layout.projectDirectory.dir("src/shaders")
+        )
+    }
+}

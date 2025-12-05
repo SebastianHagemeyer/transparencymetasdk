@@ -8,6 +8,9 @@ To build this project with custom shaders, you need to install:
 - **Android NDK (Native Development Kit)** - Required for building native Android libraries
 
 
+CMake       | 4.1.2               |
+  | Android NDK | 29.0.14206865
+
 ![Mixed Reality Sample](documentation/mixed-reality-sample.jpg)
 
 
