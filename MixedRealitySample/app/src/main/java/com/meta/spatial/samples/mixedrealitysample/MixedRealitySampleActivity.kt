@@ -93,17 +93,35 @@ class MixedRealitySampleActivity : AppSystemActivity() {
 
     systemManager.registerSystem(UiPanelUpdateSystem())
 
-    // NOTE: Here a material could be set as well to visualize the walls, ceiling, etc
-    //       It is also possible to spawn procedural meshes for volumes
+    // Create transparent green material for room bounds visualization
+    val transparentGreenMaterial = SceneMaterial.custom(
+        "solidColor",
+        arrayOf(
+            SceneMaterialAttribute("customColor", SceneMaterialDataType.Vector4)
+        )
+    ).apply {
+        setBlendMode(BlendMode.TRANSLUCENT)
+        setAttribute("customColor", Vector4(0f, 1f, 0f, 0.1f)) // RGBA: green with 10% alpha
+    }
+
+    // Apply transparent green material to all room mesh components
     procMeshSpawner =
         AnchorProceduralMesh(
             mrukFeature,
             mapOf(
-                MRUKLabel.FLOOR to AnchorProceduralMeshConfig(null, true),
-                MRUKLabel.WALL_FACE to AnchorProceduralMeshConfig(null, true),
-                MRUKLabel.CEILING to AnchorProceduralMeshConfig(null, true),
-                MRUKLabel.TABLE to AnchorProceduralMeshConfig(null, true),
-                MRUKLabel.OTHER to AnchorProceduralMeshConfig(null, true),
+                MRUKLabel.FLOOR to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.WALL_FACE to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.CEILING to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.TABLE to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.COUCH to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.WINDOW_FRAME to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.DOOR_FRAME to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.STORAGE to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.BED to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.SCREEN to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.LAMP to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.PLANT to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
+                MRUKLabel.OTHER to AnchorProceduralMeshConfig(transparentGreenMaterial, true),
             ),
         )
 
