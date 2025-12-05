@@ -20,6 +20,7 @@ import com.meta.spatial.core.Pose
 import com.meta.spatial.core.Quaternion
 import com.meta.spatial.core.SpatialFeature
 import com.meta.spatial.core.Vector3
+import com.meta.spatial.core.Vector4
 import com.meta.spatial.datamodelinspector.DataModelInspectorFeature
 import com.meta.spatial.debugtools.HotReloadFeature
 import com.meta.spatial.mruk.AnchorProceduralMesh
@@ -34,12 +35,19 @@ import com.meta.spatial.ovrmetrics.OVRMetricsFeature
 import com.meta.spatial.physics.PhysicsFeature
 import com.meta.spatial.physics.PhysicsWorldBounds
 import com.meta.spatial.toolkit.AppSystemActivity
-import com.meta.spatial.toolkit.Box
 import com.meta.spatial.toolkit.DpPerMeterDisplayOptions
 import com.meta.spatial.toolkit.GLXFInfo
 import com.meta.spatial.toolkit.Mesh
 import com.meta.spatial.toolkit.PanelRegistration
 import com.meta.spatial.toolkit.Transform
+import com.meta.spatial.runtime.BlendMode
+import com.meta.spatial.runtime.SceneMaterial
+import com.meta.spatial.runtime.SceneMaterialAttribute
+import com.meta.spatial.runtime.SceneMaterialDataType
+import com.meta.spatial.runtime.SceneMesh
+import com.meta.spatial.runtime.SceneObject
+import com.meta.spatial.toolkit.SceneObjectSystem
+import java.util.concurrent.CompletableFuture
 import com.meta.spatial.toolkit.PanelStyleOptions
 import com.meta.spatial.toolkit.QuadShapeOptions
 import com.meta.spatial.toolkit.UIPanelSettings
@@ -159,13 +167,29 @@ class MixedRealitySampleActivity : AppSystemActivity() {
     )
     scene.updateIBLEnvironment("environment.env")
 
-    // Create a cube mesh at world position (0, 0, 0)
-    Entity.create(
+    // Create a cube with custom shader material (transparent red)
+    val cubeEntity = Entity.create(
         listOf(
-            Mesh(mesh = "mesh://box".toUri()),
-            Box(min = Vector3(-0.5f, -0.5f, -0.5f), max = Vector3(0.5f, 0.5f, 0.5f)),
-            Transform(Pose(Vector3(0f, 0f, 0f), Quaternion(0f, 0f, 0f, 1f)))
+            Transform(Pose(Vector3(0f, 1f, -2f), Quaternion(0f, 0f, 0f, 1f)))
         )
+    )
+
+    // Create custom material with custom attributes (following MediaPlayerSample pattern)
+    val solidColorMaterial = SceneMaterial.custom(
+        "solidColor",
+        arrayOf(
+            SceneMaterialAttribute("customColor", SceneMaterialDataType.Vector4)
+        )
+    ).apply {
+        setBlendMode(BlendMode.TRANSLUCENT)
+        setAttribute("customColor", Vector4(1f, 0f, 0f, 0.5f)) // RGBA: red with 50% alpha
+    }
+
+    val cubeMesh = SceneMesh.box(Vector3(-0.25f, -0.25f, -0.25f), Vector3(0.25f, 0.25f, 0.25f), solidColorMaterial)
+    val sceneObject = SceneObject(scene, cubeMesh, "redCube", cubeEntity)
+    systemManager.findSystem<SceneObjectSystem>().addSceneObject(
+        cubeEntity,
+        CompletableFuture<SceneObject>().apply { complete(sceneObject) }
     )
   }
 

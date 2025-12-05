@@ -16,6 +16,7 @@ android {
   namespace = "com.meta.spatial.samples.mixedrealitysample"
   //noinspection GradleDependency
   compileSdk = 34
+  ndkVersion = "29.0.14206865"
 
   defaultConfig {
     applicationId = "com.meta.spatial.samples.mixedrealitysample"
@@ -94,6 +95,9 @@ val sceneDirectory = projectDir.dir("scenes")
 
 spatial {
   allowUsageDataCollection.set(true)
+  shaders {
+    sources.add(projectDir.dir("src/shaders"))
+  }
   scenes {
     // if you have installed Meta Spatial Editor somewhere else, update the file path.
 
