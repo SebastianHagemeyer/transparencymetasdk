@@ -16,6 +16,8 @@ import com.meta.spatial.castinputforward.CastInputForwardFeature
 import com.meta.spatial.compose.ComposeFeature
 import com.meta.spatial.compose.ComposeViewPanelRegistration
 import com.meta.spatial.core.Entity
+import com.meta.spatial.core.Pose
+import com.meta.spatial.core.Quaternion
 import com.meta.spatial.core.SpatialFeature
 import com.meta.spatial.core.Vector3
 import com.meta.spatial.datamodelinspector.DataModelInspectorFeature
@@ -32,10 +34,12 @@ import com.meta.spatial.ovrmetrics.OVRMetricsFeature
 import com.meta.spatial.physics.PhysicsFeature
 import com.meta.spatial.physics.PhysicsWorldBounds
 import com.meta.spatial.toolkit.AppSystemActivity
+import com.meta.spatial.toolkit.Box
 import com.meta.spatial.toolkit.DpPerMeterDisplayOptions
 import com.meta.spatial.toolkit.GLXFInfo
 import com.meta.spatial.toolkit.Mesh
 import com.meta.spatial.toolkit.PanelRegistration
+import com.meta.spatial.toolkit.Transform
 import com.meta.spatial.toolkit.PanelStyleOptions
 import com.meta.spatial.toolkit.QuadShapeOptions
 import com.meta.spatial.toolkit.UIPanelSettings
@@ -154,6 +158,15 @@ class MixedRealitySampleActivity : AppSystemActivity() {
         environmentIntensity = 0.3f,
     )
     scene.updateIBLEnvironment("environment.env")
+
+    // Create a cube mesh at world position (0, 0, 0)
+    Entity.create(
+        listOf(
+            Mesh(mesh = "mesh://box".toUri()),
+            Box(min = Vector3(-0.5f, -0.5f, -0.5f), max = Vector3(0.5f, 0.5f, 0.5f)),
+            Transform(Pose(Vector3(0f, 0f, 0f), Quaternion(0f, 0f, 0f, 1f)))
+        )
+    )
   }
 
   override fun onRequestPermissionsResult(
