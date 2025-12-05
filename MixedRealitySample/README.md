@@ -2,6 +2,11 @@
 
 The Mixed Reality sample shows how to use Meta Spatial SDK to create an immersive experience that interacts with the user's physical environment. Shoot basketballs at targets on your room's walls, and watch them bounce off walls, ceilings, and objects.
 
+## Prerequisites
+To build this project with custom shaders, you need to install:
+- **CMake** - Required for native code compilation
+- **Android NDK (Native Development Kit)** - Required for building native Android libraries
+
 
 ![Mixed Reality Sample](documentation/mixed-reality-sample.jpg)
 
